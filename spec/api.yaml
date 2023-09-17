@@ -1,0 +1,419 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Backend for a Blog site
+  description: Documentations
+paths:
+    /user/signup:
+      post:
+        summary: 'endpoint that enables users to signup to the blog site'
+        tags:
+          - User Authentication
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SignupRequest'
+        responses:
+          201:
+            description: 'successfully signed up'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/UserResponse'
+          400:
+            description: 'error'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+                  
+    /user/login:
+      post:
+        summary: 'endpoint to login a user'
+        tags:
+          - User Authentication
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginRequest'
+        responses:
+          201:
+            description: 'logged in'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/UserResponse'
+          400:
+            description: 'error'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+                  
+    /blog/create-post:
+      post:
+        summary: 'endpoint to create a blog post'
+        tags:
+          - Blog Endpoints
+        parameters: 
+          - $ref: '#/components/parameters/AuthToken'
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Creatpost'
+        responses:
+          201:
+            description: 'posted created successfully'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/PostSchema'
+          400:
+            description: 'error'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+                  
+    /post/:id:
+      put:
+        summary: 'endpoint to edit an already created post'
+        tags:
+          - Blog Endpoints
+        parameters: 
+          - $ref: '#/components/parameters/AuthToken'
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Editpost'
+        responses:
+          201:
+            description: 'posted edited successfully'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/PostSchema'
+          400:
+            description: 'error'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+                  
+    /blog/all-posts:
+      get:
+        summary: 'endpoint to get all the saved blog posts'
+        tags:
+          - Blog Endpoints
+        parameters: 
+          - $ref: '#/components/parameters/AuthToken'
+        responses:
+          200:
+            description: 'success'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Getposts'
+          400:
+            description: 'error'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+                  
+    /single-post/:id:
+      get:
+        summary: 'endpoint to get one particular blog post'
+        tags:
+          - Blog Endpoints
+        parameters: 
+          - $ref: '#/components/parameters/AuthToken'
+        responses:
+          200:
+            description: 'success'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/PostSchema'
+          400:
+            description: 'error'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+                  
+    /post/:blogid:
+      delete:
+        summary: 'endpoint to get delete a particular blog post'
+        tags:
+          - Blog Endpoints
+        parameters: 
+          - $ref: '#/components/parameters/AuthToken'
+        responses:
+          200:
+            description: 'post deleted successfully'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/DeleteResponse'
+          400:
+            description: 'error'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+                  
+    /:blog_id/comment:
+      post:
+        summary: 'endpoint to comment on a blog post'
+        tags:
+          - Blog Endpoints
+        parameters: 
+          - $ref: '#/components/parameters/AuthToken'
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostComment'
+        responses:
+          201:
+            description: 'Comment posted successfully'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/CommentSchema'
+          400:
+            description: 'error'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+                  
+    /:blog_id/like:
+      post:
+        summary: 'endpoint to like a particular blog post'
+        tags:
+          - Blog Endpoints
+        parameters: 
+          - $ref: '#/components/parameters/AuthToken'
+        responses:
+          200:
+            description: 'you liked this post'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/LikeandUnlikeResponse'
+          400:
+            description: 'error'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+                  
+    /:blog_id/unlike:
+      post:
+        summary: 'endpoint to unlike a blog post'
+        tags:
+          - Blog Endpoints
+        parameters: 
+          - $ref: '#/components/parameters/AuthToken'
+        responses:
+          200:
+            description: 'you unliked this post'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/LikeandUnlikeResponse'
+          400:
+            description: 'error'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+                  
+    /:blog_id/dislike:
+      post:
+        summary: 'endpoint to dislike a particular blog post'
+        tags:
+          - Blog Endpoints
+        parameters: 
+          - $ref: '#/components/parameters/AuthToken'
+        responses:
+          200:
+            description: 'you disliked this post'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/DislikeandRevertDislikeResponse'
+          400:
+            description: 'error'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+                  
+    /:blog_id/revert-dislike:
+      post:
+        summary: 'endpoint to revert-dislike a blog post'
+        tags:
+          - Blog Endpoints
+        parameters: 
+          - $ref: '#/components/parameters/AuthToken'
+        responses:
+          200:
+            description: 'you revert-disliked this post'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/DislikeandRevertDislikeResponse'
+          400:
+            description: 'error'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  parameters:
+    AuthToken:
+      name: authorization
+      in: header
+      schema:
+        type: string
+      required: true
+
+  schemas: 
+    SignupRequest:
+      type: object
+      required:
+        - email
+        - username
+        - password
+      properties:
+        email:
+          type: string
+          format: email
+        username:
+          type: string
+        password:
+          type: string
+          format: password
+          pattern: '^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$'
+          
+    LoginRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+    
+    UserResponse:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          format: password
+        token:
+          type: string
+          
+    Creatpost:
+      type: object
+      properties:
+        title:
+          type: string
+        content:
+          type: string
+          
+    Editpost:
+      type: object
+      properties:
+        content:
+          type: string
+          
+    PostSchema:
+      type: object
+      properties:
+        title:
+          type: string
+        content:
+          type: string
+        author:
+          type: string
+        likes:
+          type: array
+          items:
+            type: string
+        dislikes:
+          type: array
+          items:
+            type: string
+        comments:
+          type: array
+          items:
+            type: object
+        timestamps:
+          type: string
+          
+    Getposts:
+      type: array
+      items:
+        type: object
+        
+    PostComment:
+      type: object
+      properties:
+        comment:
+          type: string
+          
+    CommentSchema:
+      type: object
+      properties:
+        comment:
+          type: string
+        user_id:
+          type: string
+        comment_id:
+          type: string
+        timestamps:
+          type: string
+          
+    LikeandUnlikeResponse:
+      title: Like/Unlike Response
+      type: object
+      properties:
+        message:
+          type: string
+          
+    DislikeandRevertDislikeResponse:
+      title: Dislike/Revert-Dislike Response
+      type: object
+      properties:
+        message:
+          type: string
+          
+    DeleteResponse:
+      title: Delete Post Response
+      type: object
+      properties:
+        message:
+          type: string
+
+    ErrorResponse:
+      title: Error Message
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+      required:
+        - message
