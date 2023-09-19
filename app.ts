@@ -3,8 +3,12 @@ import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import userRouter from './routes/user.routes';
 import * as swaggerUi from 'swagger-ui-express';
+import * as dotenv from 'dotenv';
+import fetch from 'node-fetch';
 
 const swaggerSpec = require('./spec/swagger');
+dotenv.config();
+// const mongoDB_connection_string: string = process.env.mongoDB
 
 const app = express();
 
@@ -25,7 +29,8 @@ app.post('*', (req: express.Request, res: express.Response) => {
 
 app.listen(3333, async () => {
     console.log('server is running!');
-    await mongoose.connect('mongodb://127.0.0.1/hmp-capstone-project');
+  //  await mongoose.connect('mongodb://127.0.0.1/hmp-capstone-project');
+    await mongoose.connect(`${process.env.MONGO_DB}`);
     console.log('Connected to MongoDB');
     console.log(`your api doc is on http://localhost:3333/docs`)
 });
