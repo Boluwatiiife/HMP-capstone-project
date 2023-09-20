@@ -53,12 +53,12 @@ paths:
                   $ref: '#/components/schemas/ErrorResponse'
                   
     /blog/posts:
+      parameters: 
+          - $ref: '#/components/parameters/AuthToken'
       post:
         summary: 'endpoint to create a blog post'
         tags:
           - Blog Endpoints
-        parameters: 
-          - $ref: '#/components/parameters/AuthToken'
         requestBody:
           content:
             application/json:
@@ -71,6 +71,24 @@ paths:
               application/json:
                 schema:
                   $ref: '#/components/schemas/PostSchema'
+          400:
+            description: 'error'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+
+      get:
+        summary: 'endpoint to get all the saved blog posts'
+        tags:
+          - Blog Endpoints
+        responses:
+          200:
+            description: 'success'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Getposts'
           400:
             description: 'error'
             content:
@@ -104,28 +122,6 @@ paths:
                 schema:
                   $ref: '#/components/schemas/ErrorResponse'
                   
-    /blog/posts:
-      get:
-        summary: 'endpoint to get all the saved blog posts'
-        tags:
-          - Blog Endpoints
-        parameters: 
-          - $ref: '#/components/parameters/AuthToken'
-        responses:
-          200:
-            description: 'success'
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/Getposts'
-          400:
-            description: 'error'
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/ErrorResponse'
-                  
-    /post/:id:
       get:
         summary: 'endpoint to get one particular blog post'
         tags:
