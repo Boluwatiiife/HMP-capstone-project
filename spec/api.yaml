@@ -52,7 +52,7 @@ paths:
                 schema:
                   $ref: '#/components/schemas/ErrorResponse'
                   
-    /blog/create-post:
+    /blog/posts:
       post:
         summary: 'endpoint to create a blog post'
         tags:
@@ -104,7 +104,7 @@ paths:
                 schema:
                   $ref: '#/components/schemas/ErrorResponse'
                   
-    /blog/all-posts:
+    /blog/posts:
       get:
         summary: 'endpoint to get all the saved blog posts'
         tags:
@@ -125,7 +125,7 @@ paths:
                 schema:
                   $ref: '#/components/schemas/ErrorResponse'
                   
-    /single-post/:id:
+    /post/:id:
       get:
         summary: 'endpoint to get one particular blog post'
         tags:

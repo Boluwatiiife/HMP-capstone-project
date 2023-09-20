@@ -29,7 +29,6 @@ app.post('*', (req: express.Request, res: express.Response) => {
 
 app.listen(3333, async () => {
     console.log('server is running!');
-  //  await mongoose.connect('mongodb://127.0.0.1/hmp-capstone-project');
     await mongoose.connect(`${process.env.MONGO_DB}`);
     console.log('Connected to MongoDB');
     console.log(`your api doc is on http://localhost:3333/docs`)

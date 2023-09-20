@@ -18,11 +18,11 @@ router.post('/user/signup', signupHandler);
 
 router.post('/user/login', loginHandler);
 
-router.get('/blog/all-posts',validUser, GetAllPostHandler);
+router.get('/blog/posts',validUser, GetAllPostHandler);
 
-router.get('/single-post/:id',validUser, getOnePostByIdHandler);
+router.get('/post/:id',validUser, getOnePostByIdHandler);
 
- router.post('/blog/create-post',validUser, CreatePostHandler);
+ router.post('/blog/posts',validUser, CreatePostHandler);
 
 router.put('/post/:id',validUser, EditPostHandler);
 
